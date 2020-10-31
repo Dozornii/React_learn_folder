@@ -16,6 +16,7 @@ import axios from 'axios';
         console.log(this.state);
      }
      onDeleteClick = async (id,dispatch)=>{
+         try {
          console.log('here');
         await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`,
         { 
@@ -23,6 +24,10 @@ import axios from 'axios';
           'Access-Control-Allow-Origin': '*',
        }});
        dispatch({type:'DELETE_CONTACT',payload:id});
+    }
+        catch (e){
+            dispatch({type:'DELETE_CONTACT',payload:id});
+        }
      }
     render() {
         const {id,name,email,phone} = this.props.contact;
