@@ -15,14 +15,14 @@ import axios from 'axios';
         this.setState({showContactInfo:!this.state.showContactInfo});
         console.log(this.state);
      }
-     onDeleteClick =(id,dispatch)=>{
+     onDeleteClick = async (id,dispatch)=>{
          console.log('here');
-         axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`,
+        await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`,
         { 
       headers: {
           'Access-Control-Allow-Origin': '*',
-       }})
-         .then(res  =>  dispatch({type:'DELETE_CONTACT',payload:id}));
+       }});
+       dispatch({type:'DELETE_CONTACT',payload:id});
      }
     render() {
         const {id,name,email,phone} = this.props.contact;
