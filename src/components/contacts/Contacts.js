@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types'
 import {Consumer} from '../../context';
 import axios from 'axios';
@@ -15,19 +16,14 @@ import axios from 'axios';
         this.setState({showContactInfo:!this.state.showContactInfo});
         console.log(this.state);
      }
-     onDeleteClick = async (id,dispatch)=>{
-         try {
+     onDeleteClick =(id,dispatch)=>{
          console.log('here');
-        await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`,
+         axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`,
         { 
       headers: {
           'Access-Control-Allow-Origin': '*',
-       }});
-       dispatch({type:'DELETE_CONTACT',payload:id});
-    }
-        catch (e){
-            dispatch({type:'DELETE_CONTACT',payload:id});
-        }
+       }}  )
+         .then(res  =>  dispatch({type:'DELETE_CONTACT',payload:id}));
      }
     render() {
         const {id,name,email,phone} = this.props.contact;
@@ -44,7 +40,20 @@ import axios from 'axios';
                 
                 /> <i className="fa fa-times" style={{cursor:'pointer',float:'right',color:'red'}}
                 onClick={this.onDeleteClick.bind(this,id,dispatch)}
-                ></i></h4>
+                ></i>
+                <Link to={`contact/edit/${id}`}>
+                    <i
+                     className="fa fa-pencil"
+                     style={{
+                         cursor:'pointer',
+                         float:'right',
+                         color:'black',
+                         marginRight:'1rem'
+                     }} 
+                     ></i>
+                </Link>
+                
+                </h4>
                {showContactInfo?( <ul className="list-group">
                     <li className="list-group-item">Email: {email}</li>
                     <li className="list-group-item">Phone:{phone}</li>
